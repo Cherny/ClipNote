@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">ClipNote</string>
+
+    <string name="detail_done">Done</string>
+    <string name="detail_mode">Mode</string>
+
+    <string name="cancle">cancle</string>
+    <string name="confirm">confirm</string>
+    <string name="note_change_cancel">cancel the change</string>
+    <string name="note_not_save">do not save the note</string>
+    <string name="note_saved">Note saved</string>
+    <string name="note_changed">Note changed</string>
+    <string name="note_store_failed">Store failed</string>
 </resources>

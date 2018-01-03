@@ -1,12 +1,16 @@
 package com.cherny.clipnote
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import android.widget.Toast
 import com.cherny.clipnote.adapter.MainListAdapter
+import com.cherny.clipnote.detail.NoteDetailActivity
 import com.cherny.clipnote.entity.ListItem
+import com.cherny.clipnote.listener.OnItemClickListener
 import com.cherny.clipnote.listener.PullingLoadListener
 import kotlinx.android.synthetic.main.activity_main_list.*
 
@@ -30,7 +34,7 @@ class MainListActivity : AppCompatActivity() {
 
         var list:ArrayList<ListItem> = ArrayList()
         for (i in 1..10)
-            list.add(ListItem("t$i","b$i","d$i"))
+            list.add(ListItem(i,"t$i","b$i","d$i"))
         this.adapter.addDataSet(list)
 
         mainlist_sweeprefresh.setOnRefreshListener({
@@ -45,13 +49,25 @@ class MainListActivity : AppCompatActivity() {
                 loadMoreData(loadCount)
             }
         })
+
+        this.adapter.setOnItemClickListener(object : OnItemClickListener{
+            override fun onItemClick(view: View?, position: Int) {
+
+                var intent:Intent = Intent()
+                intent.setClass(context, NoteDetailActivity::class.java)
+                val data = adapter.getItemData(position)
+                intent.putExtra("note",data)
+                context.startActivity(intent)
+            }
+
+        })
     }
 
     private fun loadMoreData(loadCount: Int) {
         var list:ArrayList<ListItem> = ArrayList()
         val c = mainlist_list.adapter.itemCount
         for (i in c..c+loadCount)
-            list.add(ListItem("t$i","b$i","d$i"))
+            list.add(ListItem(i,"t$i","b$i","d$i"))
 
 
         this.adapter.addDataSet(list)
