@@ -11,4 +11,9 @@
     <string name="note_saved">Note saved</string>
     <string name="note_changed">Note changed</string>
     <string name="note_store_failed">Store failed</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_content">ClipNote</string>
+
+    <string name="find_note">Find a note from your clipboard\nWould you wanna to create a note?</string>
 </resources>

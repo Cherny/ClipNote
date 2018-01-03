@@ -1,4 +1,4 @@
-package com.cherny.clipnote.listener
+package com.cherny.clipnote.notelist.listener
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView

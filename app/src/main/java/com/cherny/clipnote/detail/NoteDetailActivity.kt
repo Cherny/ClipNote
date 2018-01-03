@@ -7,12 +7,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.cherny.clipnote.R
-import com.cherny.clipnote.entity.ListItem
+import com.cherny.clipnote.entity.NoteItem
 import kotlinx.android.synthetic.main.activity_note_detail.*
 
 class NoteDetailActivity : AppCompatActivity() , NoteStoreCallback{
 
-    private lateinit var note: ListItem
+    private lateinit var note: NoteItem
     private var storeState : Boolean = false
     private var editable : Boolean = false
 
@@ -26,7 +26,7 @@ class NoteDetailActivity : AppCompatActivity() , NoteStoreCallback{
         actionBar?.setHomeButtonEnabled(true)
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
-        this.note = this.intent.extras["note"] as ListItem
+        this.note = this.intent.extras["note"] as NoteItem
         detail_note.setText(this.note.body)
         detail_date.text = this.note.time
 
@@ -52,12 +52,12 @@ class NoteDetailActivity : AppCompatActivity() , NoteStoreCallback{
         if (this.editable) {
 
             detail_note.isEnabled = true
-            this.modeShift?.setIcon(R.drawable.ic_mode_edit)
+            this.modeShift.setIcon(R.drawable.ic_mode_read)
         }
         else{
 
             detail_note.isEnabled = false
-            this.modeShift?.setIcon(R.drawable.ic_mode_read)
+            this.modeShift.setIcon(R.drawable.ic_mode_edit)
         }
 
 
@@ -112,8 +112,11 @@ class NoteDetailActivity : AppCompatActivity() , NoteStoreCallback{
 
     private fun backConfirm() {
 
-        if (this.storeState)
+        if (this.storeState) {
+
+            this.finish()
             return
+        }
 
         var back: Int
         if (this.note.id == -1)
@@ -123,10 +126,10 @@ class NoteDetailActivity : AppCompatActivity() , NoteStoreCallback{
 
         AlertDialog.Builder(this)
                 .setMessage(back)
-                .setNegativeButton(R.string.cancle) { dialog, which ->
+                .setNegativeButton(R.string.cancle) { dialog, _ ->
                     dialog.dismiss()
                 }
-                .setPositiveButton(R.string.confirm) { dialogInterface, i ->
+                .setPositiveButton(R.string.confirm) { dialogInterface, _ ->
                     dialogInterface.dismiss()
                     this.finish()
                 }

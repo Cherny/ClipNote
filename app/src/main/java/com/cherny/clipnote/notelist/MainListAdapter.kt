@@ -1,4 +1,4 @@
-package com.cherny.clipnote.adapter
+package com.cherny.clipnote.notelist
 
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.cherny.clipnote.R
-import com.cherny.clipnote.entity.ListItem
-import com.cherny.clipnote.listener.OnItemClickListener
+import com.cherny.clipnote.entity.NoteItem
+import com.cherny.clipnote.notelist.listener.OnItemClickListener
 import kotlinx.android.synthetic.main.widget_main_list_item.view.*
 
 
@@ -53,18 +53,18 @@ class MainListAdapter  : RecyclerView.Adapter<MainListAdapter.VieWHolder>() , Vi
         return dataSet.size
     }
 
-    fun getItemData(position: Int) : ListItem {
+    fun getItemData(position: Int) : NoteItem {
         return this.dataSet[position]
     }
 
-    private var dataSet : ArrayList<ListItem> = ArrayList()
+    private var dataSet : ArrayList<NoteItem> = ArrayList()
 
-    fun addDataSet( notes:ArrayList<ListItem>){
+    fun addDataSet( notes:ArrayList<NoteItem>){
 
         this.dataSet.addAll(notes)
     }
 
-    fun addSingleData(note:ListItem){
+    fun addSingleData(note: NoteItem){
         this.dataSet.add(0,note)
     }
 
