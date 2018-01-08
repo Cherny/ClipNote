@@ -14,9 +14,10 @@ import com.cherny.clipnote.entity.NoteItem
 import com.cherny.clipnote.notelist.listener.OnItemClickListener
 import com.cherny.clipnote.notelist.listener.PullingLoadListener
 import com.cherny.clipnote.service.ClipboardSevices
+import com.cherny.clipnote.service.RemoteStore
 import kotlinx.android.synthetic.main.activity_main_list.*
 
-class MainListActivity : AppCompatActivity() {
+class MainListActivity : AppCompatActivity() ,NoteQueryCallback {
 
     lateinit var adapter:MainListAdapter
     lateinit var context:Context
@@ -79,30 +80,25 @@ class MainListActivity : AppCompatActivity() {
     }
 
     private fun jumpToDetail(note: NoteItem) {
-        var intent:Intent = Intent()
+        val intent = Intent()
         intent.setClass(context, NoteDetailActivity::class.java)
         intent.putExtra("note",note)
         context.startActivity(intent)
     }
 
     private fun getDataSet() {
-        var note:ArrayList<NoteItem> = ArrayList()
-        for (i in 1..10)
-            note.add(NoteItem(i,"t$i","b$i","d$i"))
-        this.adapter.addDataSet(note)
+        RemoteStore.query(0,10,this)
     }
 
     private fun loadMoreData(loadCount: Int) {
-        var note:ArrayList<NoteItem> = ArrayList()
-        val c = mainlist_list.adapter.itemCount
-        for (i in c..c+loadCount)
-            note.add(NoteItem(i,"t$i","b$i","d$i"))
 
+        val index = mainlist_list.adapter.itemCount
+        RemoteStore.query(index,loadCount,this)
+    }
 
-        this.adapter.addDataSet(note)
+    override fun onNoteQueried(noteSet: ArrayList<NoteItem>) {
 
-        val count = this.adapter.itemCount
-        Toast.makeText(context,"items counts:$count", Toast.LENGTH_SHORT).show()
+        this.adapter.addDataSet(noteSet)
         mainlist_list.adapter.notifyDataSetChanged()
     }
 }

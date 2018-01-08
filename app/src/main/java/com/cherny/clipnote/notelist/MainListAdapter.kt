@@ -35,7 +35,7 @@ class MainListAdapter  : RecyclerView.Adapter<MainListAdapter.VieWHolder>() , Vi
 
         Log.d("adapter","Element"+position+"set")
         holder?.getTitle()?.text = this.dataSet[position].title
-        holder?.getDate()?.text = this.dataSet[position].time
+        holder?.getDate()?.text = this.dataSet[position].date
         holder?.itemView?.tag = position
 
     }

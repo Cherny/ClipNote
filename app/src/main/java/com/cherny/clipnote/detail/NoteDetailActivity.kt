@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.cherny.clipnote.R
 import com.cherny.clipnote.entity.NoteItem
+import com.cherny.clipnote.service.RemoteStore
 import kotlinx.android.synthetic.main.activity_note_detail.*
 
 class NoteDetailActivity : AppCompatActivity() , NoteStoreCallback{
@@ -28,7 +29,7 @@ class NoteDetailActivity : AppCompatActivity() , NoteStoreCallback{
 
         this.note = this.intent.extras["note"] as NoteItem
         detail_note.setText(this.note.body)
-        detail_date.text = this.note.time
+        detail_date.text = this.note.date
 
         this.editable = this.note.id == -1
         this.storeState = !this.editable
@@ -72,11 +73,13 @@ class NoteDetailActivity : AppCompatActivity() , NoteStoreCallback{
                 if (this.note.id == -1) {
 
                     //save insert
+                    RemoteStore.save(this.note,this)
 
                 }
                 else {
 
                     //change update
+                    RemoteStore.change(this.note,this)
 
                 }
 
