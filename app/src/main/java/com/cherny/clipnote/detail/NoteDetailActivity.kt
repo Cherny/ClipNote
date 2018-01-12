@@ -1,6 +1,5 @@
 package com.cherny.clipnote.detail
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -20,7 +19,7 @@ class NoteDetailActivity : AppCompatActivity() , NoteStoreCallback{
 
     private lateinit var modeShift: MenuItem
 
-    @SuppressLint("SetTextI18n")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_detail)
@@ -31,7 +30,7 @@ class NoteDetailActivity : AppCompatActivity() , NoteStoreCallback{
 
         this.note = this.intent.extras["note"] as NoteItem
         detail_note.setText(this.note.body)
-        detail_date.text = this.note.date + " " + this.note.time
+        detail_date.text = this.note.dateTime
 
         this.editable = this.note.id == -1
         this.storeState = !this.editable
