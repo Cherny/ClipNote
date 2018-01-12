@@ -1,9 +1,8 @@
 package com.cherny.clipnote.network
 
 import com.cherny.clipnote.service.RemoteStore
-import okhttp3.FormBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
+import java.io.IOException
 
 /**
  * Created by cherny on 1/3/18.
@@ -15,21 +14,31 @@ object HttpRequester {
         var result:Boolean = false
     }
 
-    private val clent:OkHttpClient = OkHttpClient()
+    private val client:OkHttpClient = OkHttpClient()
+
+    private val JSON: MediaType? = MediaType.parse("application/json; charset=utf-8")
 
     fun doRequest(type:RemoteStore.StoreType, url:String, json:String) {
 
-        val body = FormBody.Builder()
-                .add("json",json)
-                .build()
+        val body = FormBody.create(this.JSON,json)
+
         val request = Request.Builder()
                 .url(url)
                 .post(body)
                 .build()
-        val call = this.clent.newCall(request)
+        this.client.newCall(request).enqueue(object :Callback {
+            override fun onFailure(call: Call?, e: IOException?) {
+                RemoteStore.responsed(type,"")
+            }
 
-        val response = call.execute().body().toString()
+            override fun onResponse(call: Call?, response: okhttp3.Response?) {
+                val result = response?.body()?.string()
+                if (result != null) {
+                    RemoteStore.responsed(type, result)
+                }
+            }
+        })
 
-        RemoteStore.responsed(type,response)
     }
+
 }

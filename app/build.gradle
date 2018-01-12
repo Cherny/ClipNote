@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.cherny.clipnote"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -15,6 +15,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    productFlavors {
     }
 }
 
@@ -31,6 +33,7 @@ dependencies {
     implementation 'com.android.support:mediarouter-v7:26.1.0'
     implementation 'com.google.code.gson:gson:2.8.0'
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'com.android.support:design:26.1.0'
 }
 
 apply plugin: 'kotlin-android'

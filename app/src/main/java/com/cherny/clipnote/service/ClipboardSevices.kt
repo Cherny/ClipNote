@@ -45,10 +45,11 @@ object ClipboardSevices {
 
         val title = body.substringBefore('\n')
 
-        val formatter = SimpleDateFormat("yyy/MM/dd HH:mm")
+        val formatter = SimpleDateFormat("yyy/MM/dd")
         val curDate = Date(System.currentTimeMillis())
         val date = formatter.format(curDate)
+        val time = SimpleDateFormat(" HH:mm:ss").format(curDate)
 
-        return NoteItem(-1,title,body,date)
+        return NoteItem(-1,title,body,date,time)
     }
 }

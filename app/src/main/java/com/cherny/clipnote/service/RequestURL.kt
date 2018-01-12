@@ -10,7 +10,8 @@ object RequestURL {
         this.HOST = host
     }
 
-    val API_SAVE = "notesave"
-    val API_CHANGE = "notechange"
-    val APT_QUERY = "notequery"
+    val API_SAVE = "/notesave"
+    val API_CHANGE = "/notechange"
+    val APT_QUERY = "/notequery"
+    val API_PING = "/ping"
 }

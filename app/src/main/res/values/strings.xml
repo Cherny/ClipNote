@@ -16,4 +16,12 @@
     <string name="dummy_content">ClipNote</string>
 
     <string name="find_note">Find a note from your clipboard\nWould you wanna to create a note?</string>
+
+    <!--setting activity-->
+    <string name="host_notice">Input your requset path at below input area</string>
+    <string name="host_hint">http://IP[:port]</string>
+    <string name="host_input">http://</string>
+    <string name="submit">Submit</string>
+    <string name="test">Test</string>
+    <string name="test_failure">host has no response,check your input</string>
 </resources>

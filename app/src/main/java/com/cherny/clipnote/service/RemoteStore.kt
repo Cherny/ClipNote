@@ -4,6 +4,7 @@ import com.cherny.clipnote.detail.NoteStoreCallback
 import com.cherny.clipnote.entity.NoteItem
 import com.cherny.clipnote.network.HttpRequester
 import com.cherny.clipnote.notelist.NoteQueryCallback
+import com.cherny.clipnote.setting.SetHostCallback
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 
@@ -15,19 +16,25 @@ object RemoteStore {
 
     fun responsed(type: StoreType, response:String) {
 
+        var success = false
+        if (response.isNotEmpty())
+            success = true
         when (type) {
 
             StoreType.SAVE -> {
+                if (!success) return
                 val re = Gson().fromJson<HttpRequester.Response>(response, HttpRequester.Response::class.java)
                 this.storeCallback.onNoteStored(re.id)
             }
 
             StoreType.CHANGE -> {
+                if (!success) return
                 val re = Gson().fromJson<HttpRequester.Response>(response, HttpRequester.Response::class.java)
                 this.storeCallback.onNoteChanged(re.result)
             }
 
             StoreType.QUERY -> {
+                if (!success) return
 
                 val array = JsonParser().parse(response).asJsonArray
                 val noteSet: ArrayList<NoteItem> = ArrayList()
@@ -36,15 +43,23 @@ object RemoteStore {
                 this.queryCallback.onNoteQueried(noteSet)
             }
 
+            StoreType.PING -> {
+                var code = 0
+                if (success)
+                    code = 1
+                this.pingCallback.onResponse(code)
+            }
+
         }
     }
 
     enum class StoreType {
-        SAVE,CHANGE,QUERY
+        SAVE,CHANGE,QUERY,PING
     }
 
     private lateinit var storeCallback: NoteStoreCallback
     private lateinit var queryCallback:NoteQueryCallback
+    private lateinit var pingCallback:SetHostCallback
 
     fun save(note:NoteItem,callback: NoteStoreCallback) {
         this.storeCallback = callback
@@ -67,5 +82,13 @@ object RemoteStore {
         val url = RequestURL.HOST + RequestURL.APT_QUERY
         val json = "{\"index\":$index,\"num\":$num}"
         HttpRequester.doRequest(StoreType.QUERY,url,json)
+    }
+
+    fun ping(host:String, callback: SetHostCallback) {
+        this.pingCallback = callback
+
+        val url = host + RequestURL.API_PING
+        val json = "{\"code\":1}"
+        HttpRequester.doRequest(StoreType.PING, url,json)
     }
 }
