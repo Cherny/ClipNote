@@ -16,11 +16,14 @@ object HttpRequester {
 
     private val client:OkHttpClient = OkHttpClient()
 
-    private val JSON: MediaType? = MediaType.parse("application/json; charset=utf-8")
+//    private val JSON: MediaType? = MediaType.parse("application/json; charset=utf-8")
 
     fun doRequest(type:RemoteStore.StoreType, url:String, json:String) {
 
-        val body = FormBody.create(this.JSON,json)
+//        val body = FormBody.create(this.JSON,json)
+        val body = FormBody.Builder()
+                .add("json",json)
+                .build()
 
         val request = Request.Builder()
                 .url(url)
@@ -32,8 +35,9 @@ object HttpRequester {
             }
 
             override fun onResponse(call: Call?, response: okhttp3.Response?) {
+                //0:success -1:failure jsonArray:query data
                 val result = response?.body()?.string()
-                if (result != null) {
+                if (result != "-1" && result != null) {
                     RemoteStore.responsed(type, result)
                 }
             }

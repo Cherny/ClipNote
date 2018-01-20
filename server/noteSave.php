@@ -16,7 +16,10 @@ function main()
 
     $sql = "INSERT INTO cn_notebook (body) VALUES ('{$item->BODY}');";
     $database = new Database();
-    echo $database->query($sql)? 0: -1;
+    $re =  $database->query($sql);
+    $id = $database->queryId();
+
+    echo "{\"id\":$id,\"result\":$re}";
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')

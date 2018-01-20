@@ -15,7 +15,10 @@ function main()
 
     $sql = "UPDATE cn_notebook SET body = '{$item->BODY}' WHERE id = {$item->ID}";
     $database = new Database();
-    echo $database->query($sql)? 0: -1;
+    $re =  $database->query($sql);
+    $id = $database->queryId();
+
+    echo "{\"id\":$id,\"result\":$re}";
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')

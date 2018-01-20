@@ -3,6 +3,7 @@ package com.cherny.clipnote.service
 import com.cherny.clipnote.detail.NoteStoreCallback
 import com.cherny.clipnote.entity.NoteItem
 import com.cherny.clipnote.network.HttpRequester
+import com.cherny.clipnote.network.RequestURL
 import com.cherny.clipnote.notelist.NoteQueryCallback
 import com.cherny.clipnote.setting.SetHostCallback
 import com.google.gson.Gson
@@ -16,25 +17,19 @@ object RemoteStore {
 
     fun responsed(type: StoreType, response:String) {
 
-        var success = false
-        if (response.isNotEmpty())
-            success = true
         when (type) {
 
             StoreType.SAVE -> {
-                if (!success) return
                 val re = Gson().fromJson<HttpRequester.Response>(response, HttpRequester.Response::class.java)
                 this.storeCallback.onNoteStored(re.id)
             }
 
             StoreType.CHANGE -> {
-                if (!success) return
                 val re = Gson().fromJson<HttpRequester.Response>(response, HttpRequester.Response::class.java)
                 this.storeCallback.onNoteChanged(re.result)
             }
 
             StoreType.QUERY -> {
-                if (!success) return
 
                 val array = JsonParser().parse(response).asJsonArray
                 val noteSet: ArrayList<NoteItem> = ArrayList()
@@ -44,14 +39,15 @@ object RemoteStore {
             }
             
             StoreType.DELETE -> {
-            	
+
             }
 
             StoreType.PING -> {
-                var code = 0
-                if (success)
-                    code = 1
-                this.pingCallback.onResponse(code)
+
+                if (response == "ping")
+                    this.pingCallback.onResponse(true)
+                else
+                    this.pingCallback.onResponse(false)
             }
 
         }

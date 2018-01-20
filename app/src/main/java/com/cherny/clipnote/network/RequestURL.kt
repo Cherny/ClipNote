@@ -1,4 +1,4 @@
-package com.cherny.clipnote.service
+package com.cherny.clipnote.network
 
 /**
  * Created by cherny on 1/3/18.
@@ -7,7 +7,7 @@ object RequestURL {
 
     lateinit var HOST : String
     fun setHost(host:String) {
-        this.HOST = host
+        HOST = host
     }
 
     val API_SAVE = "/notesave"

@@ -16,7 +16,10 @@ function main()
 
     $sql = "DELETE from cn_notebook WHERE id = {$item->ID}";
     $database = new Database();
-    echo $database->query($sql)? 0: -1;
+    $re =  $database->query($sql);
+    $id = $item->ID;
+
+    echo "{\"id\":$id,\"result\":$re}";
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')

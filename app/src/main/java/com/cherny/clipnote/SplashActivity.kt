@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.cherny.clipnote.entity.Configuration
+import com.cherny.clipnote.network.RequestURL
 import com.cherny.clipnote.notelist.MainListActivity
-import com.cherny.clipnote.service.RequestURL
 import com.cherny.clipnote.setting.Config
 import com.cherny.clipnote.setting.SetHostActivity
 

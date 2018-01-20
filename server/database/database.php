@@ -24,6 +24,17 @@ class Database {
             return false;
     }
 
+    function queryId()
+    {
+        $sql = "SELECT max(id) FROM cn_notebook";
+        $result = $this->connect->query($sql);
+
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc()["id"];
+        } else
+            return -1;
+    }
+
     function queryWithResult($sql)
     {
         $result = $this->connect->query($sql);

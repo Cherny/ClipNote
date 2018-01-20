@@ -11,16 +11,16 @@ import com.cherny.clipnote.service.RemoteStore
 import kotlinx.android.synthetic.main.activity_set_host.*
 
 interface SetHostCallback {
-    fun onResponse(code:Int)
+    fun onResponse(response:Boolean)
 }
 
 class SetHostActivity : AppCompatActivity(),SetHostCallback {
 
     private lateinit var host:String
 
-    override fun onResponse(code:Int) {
+    override fun onResponse(response:Boolean) {
 
-        if (code != 1)
+        if (!response)
         {
             set_host_resurt.visibility = View.VISIBLE
             return
