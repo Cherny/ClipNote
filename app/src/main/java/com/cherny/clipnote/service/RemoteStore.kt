@@ -42,6 +42,10 @@ object RemoteStore {
                 array.mapTo(noteSet) { Gson().fromJson<NoteItem>(it, NoteItem::class.java) }
                 this.queryCallback.onNoteQueried(noteSet)
             }
+            
+            StoreType.DELETE -> {
+            	
+            }
 
             StoreType.PING -> {
                 var code = 0
@@ -54,7 +58,7 @@ object RemoteStore {
     }
 
     enum class StoreType {
-        SAVE,CHANGE,QUERY,PING
+        SAVE,CHANGE,QUERY,DELETE,PING
     }
 
     private lateinit var storeCallback: NoteStoreCallback
@@ -82,6 +86,13 @@ object RemoteStore {
         val url = RequestURL.HOST + RequestURL.APT_QUERY
         val json = "{\"index\":$index,\"num\":$num}"
         HttpRequester.doRequest(StoreType.QUERY,url,json)
+    }
+    
+    fun delete(note:NoteItem, callback:NoteStoreCallback) {
+    	this.storeCallback = callback
+    	
+    	val url = RequestURL.HOST + RequestURL.API_DELETE
+    	HttpRequester.doRequest(StoreType.DELETE, url, note.toJson())
     }
 
     fun ping(host:String, callback: SetHostCallback) {

@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ClipNoteServer" type="PhpBuiltInWebServerConfigurationType" factoryName="PHP Built-in Web Server" singleton="true" document_root="$USER_HOME$/Project/Android/ClipNote/server" host="127.0.0.1" port="8080">
+    <method />
+  </configuration>
+</component>

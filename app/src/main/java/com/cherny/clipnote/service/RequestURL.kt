@@ -13,5 +13,6 @@ object RequestURL {
     val API_SAVE = "/notesave"
     val API_CHANGE = "/notechange"
     val APT_QUERY = "/notequery"
+    val API_DELETE = "/notedelete"
     val API_PING = "/ping"
 }
