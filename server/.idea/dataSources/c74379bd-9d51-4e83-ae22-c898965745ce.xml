@@ -971,7 +971,7 @@
     </column>
     <column id="242" parent="238" name="date_time">
       <Position>3</Position>
-      <DataType>datetime|0</DataType>
+      <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
@@ -984,7 +984,7 @@
       <Turn>before-row</Turn>
       <Events>I</Events>
     </trigger>
-    <trigger id="245" parent="238" name="update_by_create">
+    <trigger id="245" parent="238" name="update_with_id">
       <Turn>before-row</Turn>
       <Events>U</Events>
     </trigger>

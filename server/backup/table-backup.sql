@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `cn_notebook`;
 CREATE TABLE `cn_notebook` (
   `id` int(11) NOT NULL,
   `body` text NOT NULL,
-  `date_time` datetime NOT NULL,
+  `date_time` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='notes of application clipnote';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -36,7 +36,7 @@ CREATE TABLE `cn_notebook` (
 
 LOCK TABLES `cn_notebook` WRITE;
 /*!40000 ALTER TABLE `cn_notebook` DISABLE KEYS */;
-INSERT INTO `cn_notebook` VALUES (12,'555','2018-01-19 23:11:30'),(13,'888','2018-01-19 23:12:15'),(14,'333','2018-01-20 05:43:25'),(15,'666','2018-01-20 17:05:22'),(16,'444','2018-01-20 17:11:55'),(17,'888','2018-01-20 18:10:22'),(18,'666','2018-01-20 18:14:07'),(19,'111','2018-01-20 18:16:26'),(20,'222','2018-01-20 18:34:21');
+INSERT INTO `cn_notebook` VALUES (12,'555','2018-01-19 23:11:30'),(13,'888','2018-01-19 23:12:15'),(14,'333','2018-01-20 05:43:25'),(15,'666','2018-01-20 17:05:22'),(16,'444','2018-01-20 17:11:55'),(17,'888','2018-01-20 18:10:22'),(18,'666','2018-01-20 18:14:07'),(20,'222','2018-01-20 18:34:21'),(21,'777','2018-01-20 18:16:27');
 /*!40000 ALTER TABLE `cn_notebook` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -57,7 +57,7 @@ DELIMITER ;;
     THEN
     SET NEW.body = NULL;
   END IF;
-  SET NEW.date_time = now();
+#   SET NEW.date_time = now();
   IF ( (SELECT count(*) FROM cn_notebook) = 0)
     THEN
       SET NEW.id = 0;
@@ -79,13 +79,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`project`@`localhost`*/ /*!50003 TRIGGER update_by_create
+/*!50003 CREATE*/ /*!50017 DEFINER=`project`@`localhost`*/ /*!50003 TRIGGER update_with_id
   BEFORE UPDATE
   ON cn_notebook
   FOR EACH ROW
   BEGIN
     SET NEW.id = (SELECT max(id) FROM cn_notebook) + 1;
-    SET NEW.date_time = now();
   END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -102,4 +101,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-20 18:54:04
+-- Dump completed on 2018-01-22 17:44:34

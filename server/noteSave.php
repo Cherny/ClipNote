@@ -14,7 +14,7 @@ function main()
     $item = new NoteItem();
     $item->fromJson($json);
 
-    $sql = "INSERT INTO cn_notebook (body) VALUES ('{$item->BODY}');";
+    $sql = "INSERT INTO cn_notebook (body,date_time) VALUES ('{$item->BODY}','{$item->DATETIME}');";
     $database = new Database();
     $re =  $database->query($sql);
     $id = $database->queryId();
