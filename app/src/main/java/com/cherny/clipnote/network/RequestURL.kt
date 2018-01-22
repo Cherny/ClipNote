@@ -10,9 +10,9 @@ object RequestURL {
         HOST = host
     }
 
-    val API_SAVE = "/notesave"
-    val API_CHANGE = "/notechange"
-    val APT_QUERY = "/notequery"
-    val API_DELETE = "/notedelete"
-    val API_PING = "/ping"
+    val API_SAVE = "/noteSave.php"
+    val API_CHANGE = "/noteChange.php"
+    val APT_QUERY = "/noteQuery.php"
+    val API_DELETE = "/noteDelete.php"
+    val API_PING = "/ping.php"
 }

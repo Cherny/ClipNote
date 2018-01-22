@@ -6,26 +6,26 @@ import java.io.Serializable
 /**
  * Created by cherny on 1/1/18.
  */
-data class NoteItem(var id:Int, var title:String, var body:String, var dateTime:String) : Serializable{
+class NoteItem(var ID:Int, var BODY:String, var DATETIME:String) : Serializable{
 
-    inner class BriefNote{
-        var ID:Int = id
-        var BODY:String = body
-        var DATETIME:String = dateTime
+    constructor( ) : this(-1, "", "")
 
-    }
+    fun fromJson(json:String): NoteItem{
+        val note = Gson().fromJson<NoteItem>(json,NoteItem::class.java) as NoteItem
+        this.ID = note.ID
+        this.BODY = note.BODY
+        this.DATETIME = note.DATETIME
 
-    fun fromJson(json:String){
-        val note = Gson().fromJson<NoteItem>(json,BriefNote::class.java) as BriefNote
-        this.id = note.ID
-        this.body = note.BODY
-        this.dateTime = note.DATETIME
-        this.title = note.BODY.substringBefore("\n")
+        return this
     }
 
     fun toJson(): String {
 
-        return Gson().toJson(this.BriefNote())
+        return Gson().toJson(this)
 
+    }
+
+    fun getTitle(): String {
+        return this.BODY.substringBefore('\n')
     }
 }

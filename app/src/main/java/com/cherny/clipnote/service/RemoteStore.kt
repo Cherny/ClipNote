@@ -1,10 +1,10 @@
 package com.cherny.clipnote.service
 
-import com.cherny.clipnote.detail.NoteStoreCallback
+import com.cherny.clipnote.detail.DetailPageCallback
 import com.cherny.clipnote.entity.NoteItem
 import com.cherny.clipnote.network.HttpRequester
 import com.cherny.clipnote.network.RequestURL
-import com.cherny.clipnote.notelist.NoteQueryCallback
+import com.cherny.clipnote.notelist.ListPageCallback
 import com.cherny.clipnote.setting.SetHostCallback
 import com.google.gson.Gson
 import com.google.gson.JsonParser
@@ -21,25 +21,28 @@ object RemoteStore {
 
             StoreType.SAVE -> {
                 val re = Gson().fromJson<HttpRequester.Response>(response, HttpRequester.Response::class.java)
-                this.storeCallback.onNoteStored(re.id)
+                this.storeCallback.onNoteStored(re.id, re.result)
             }
 
             StoreType.CHANGE -> {
                 val re = Gson().fromJson<HttpRequester.Response>(response, HttpRequester.Response::class.java)
-                this.storeCallback.onNoteChanged(re.result)
+                this.storeCallback.onNoteChanged(re.id, re.result)
             }
 
             StoreType.QUERY -> {
 
-                val array = JsonParser().parse(response).asJsonArray
                 val noteSet: ArrayList<NoteItem> = ArrayList()
-
-                array.mapTo(noteSet) { Gson().fromJson<NoteItem>(it, NoteItem::class.java) }
+                if (response.isNotEmpty()) {
+                    val array = JsonParser().parse(response).asJsonArray
+                    array.map { it.asJsonObject.toString() }
+                         .mapTo(noteSet) { NoteItem().fromJson(it) }
+                }
                 this.queryCallback.onNoteQueried(noteSet)
             }
             
             StoreType.DELETE -> {
-
+                val re = Gson().fromJson<HttpRequester.Response>(response, HttpRequester.Response::class.java)
+                this.storeCallback.onNoteDeleted(re.id, re.result)
             }
 
             StoreType.PING -> {
@@ -57,11 +60,11 @@ object RemoteStore {
         SAVE,CHANGE,QUERY,DELETE,PING
     }
 
-    private lateinit var storeCallback: NoteStoreCallback
-    private lateinit var queryCallback:NoteQueryCallback
+    private lateinit var storeCallback: DetailPageCallback
+    private lateinit var queryCallback: ListPageCallback
     private lateinit var pingCallback:SetHostCallback
 
-    fun save(note:NoteItem,callback: NoteStoreCallback) {
+    fun save(note:NoteItem,callback: DetailPageCallback) {
         this.storeCallback = callback
 
         val url = RequestURL.HOST + RequestURL.API_SAVE
@@ -69,14 +72,14 @@ object RemoteStore {
     }
 
 
-    fun change(note: NoteItem,callback: NoteStoreCallback) {
+    fun change(note: NoteItem,callback: DetailPageCallback) {
         this.storeCallback = callback
 
         val url = RequestURL.HOST + RequestURL.API_CHANGE
         HttpRequester.doRequest(StoreType.CHANGE, url, note.toJson())
     }
 
-    fun query(index:Int,num:Int,callback: NoteQueryCallback) {
+    fun query(index:Int,num:Int,callback: ListPageCallback) {
         this.queryCallback = callback
 
         val url = RequestURL.HOST + RequestURL.APT_QUERY
@@ -84,7 +87,7 @@ object RemoteStore {
         HttpRequester.doRequest(StoreType.QUERY,url,json)
     }
     
-    fun delete(note:NoteItem, callback:NoteStoreCallback) {
+    fun delete(note:NoteItem, callback: DetailPageCallback) {
     	this.storeCallback = callback
     	
     	val url = RequestURL.HOST + RequestURL.API_DELETE

@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.widget_main_list_item.view.*
  */
 class MainListAdapter  : RecyclerView.Adapter<MainListAdapter.VieWHolder>() , View.OnClickListener{
 
-
+    private var dataSet : ArrayList<NoteItem> = ArrayList()
     private lateinit var itemClickListener : OnItemClickListener
 
 
@@ -34,8 +34,8 @@ class MainListAdapter  : RecyclerView.Adapter<MainListAdapter.VieWHolder>() , Vi
     override fun onBindViewHolder(holder: VieWHolder?, position: Int) {
 
         Log.d("adapter","Element"+position+"set")
-        holder?.getTitle()?.text = this.dataSet[position].title
-        holder?.getDate()?.text = this.dataSet[position].date
+        holder?.getTitle()?.text = this.dataSet[position].getTitle()
+        holder?.getDate()?.text = this.dataSet[position].DATETIME
         holder?.itemView?.tag = position
 
     }
@@ -57,8 +57,6 @@ class MainListAdapter  : RecyclerView.Adapter<MainListAdapter.VieWHolder>() , Vi
         return this.dataSet[position]
     }
 
-    private var dataSet : ArrayList<NoteItem> = ArrayList()
-
     fun addDataSet( notes:ArrayList<NoteItem>){
 
         this.dataSet.addAll(notes)
@@ -68,7 +66,7 @@ class MainListAdapter  : RecyclerView.Adapter<MainListAdapter.VieWHolder>() , Vi
         this.dataSet.add(0,note)
     }
 
-    fun removeSingleData(index:Int): Boolean{
+    fun removeSingleData(index: Int): Boolean{
 
         val size = this.dataSet.size
         this.dataSet.removeAt(index)

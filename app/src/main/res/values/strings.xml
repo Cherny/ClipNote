@@ -3,6 +3,7 @@
 
     <string name="detail_done">Done</string>
     <string name="detail_mode">Mode</string>
+    <string name="detail_delete">Delete</string>
 
     <string name="cancle">cancle</string>
     <string name="confirm">confirm</string>
@@ -11,6 +12,7 @@
     <string name="note_saved">Note saved</string>
     <string name="note_changed">Note changed</string>
     <string name="note_store_failed">Store failed</string>
+    <string name="note_delete_failed">Delete failed</string>
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_content">ClipNote</string>

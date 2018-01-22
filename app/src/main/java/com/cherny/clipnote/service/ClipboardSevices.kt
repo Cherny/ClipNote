@@ -1,13 +1,10 @@
 package com.cherny.clipnote.service
 
-import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipDescription
 import android.content.ClipboardManager
 import android.content.Context
 import com.cherny.clipnote.entity.NoteItem
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * Created by cherny on 1/3/18.
@@ -20,7 +17,7 @@ object ClipboardSevices {
         val body = this.getNoteBodyFromClipboard(context)
 
         if (body != null)
-            return this.assumbleNoteItem(body)
+            return this.assembleNoteItem(body)
         return null
     }
 
@@ -40,16 +37,10 @@ object ClipboardSevices {
         return null
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private fun assumbleNoteItem(body:String) : NoteItem {
+    private fun assembleNoteItem(body:String) : NoteItem {
 
-        val title = body.substringBefore('\n')
+        val dateTime = DateTimeService.getDateTime()
 
-        val formatter = SimpleDateFormat("yyy/MM/dd")
-        val curDate = Date(System.currentTimeMillis())
-        val date = formatter.format(curDate)
-        val time = SimpleDateFormat(" HH:mm:ss").format(curDate)
-
-        return NoteItem(-1,title,body,date,time)
+        return NoteItem(-1,body,dateTime)
     }
 }

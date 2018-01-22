@@ -5,6 +5,6 @@ import com.cherny.clipnote.entity.NoteItem
 /**
  * Created by cherny on 1/3/18.
  */
-interface NoteQueryCallback {
+interface ListPageCallback {
     fun onNoteQueried(noteSet:ArrayList<NoteItem>)
 }
