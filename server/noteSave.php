@@ -7,6 +7,7 @@
  */
 
 require './database/database.php';
+require './entity/ReturnCode.php';
 
 function main()
 {
@@ -19,7 +20,8 @@ function main()
     $re =  $database->query($sql);
     $id = $database->queryId();
 
-    echo "{\"id\":$id,\"result\":$re}";
+    $code = new ReturnCode($id,$re);
+    echo json_encode($code);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')

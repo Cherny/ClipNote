@@ -26,11 +26,11 @@ class Database {
 
     function queryId()
     {
-        $sql = "SELECT max(id) FROM cn_notebook";
+        $sql = "SELECT max(id) max FROM cn_notebook";
         $result = $this->connect->query($sql);
 
         if ($result->num_rows > 0) {
-            return $result->fetch_assoc()["id"];
+            return $result->fetch_assoc()["max"];
         } else
             return -1;
     }
